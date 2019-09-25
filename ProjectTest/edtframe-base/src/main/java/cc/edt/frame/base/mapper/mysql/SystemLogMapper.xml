@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.edt.frame.base.dao.SystemLogDao">
+    <resultMap type="cc.edt.frame.model.entity.base.SystemLog" id="SystemLogMap">
+        <id property="id" column="id"/>
+        <result property="operationType" column="operation_type"/>
+        <result property="operationName" column="operation_name"/>
+        <result property="userId" column="user_id"/>
+        <result property="content" column="content"/>
+        <result property="addTime" column="add_time"/>
+    </resultMap>
+    <insert id="saveSystemLog">
+        insert into base_system_log (id, operation_type, operation_name, user_id, add_time, content)
+        values (#{id}, #{operationType}, #{operationName}, #{userId}, #{addTime}, #{content})
+    </insert>
+    <select id="listSystemLogByCondition" parameterType="SystemLogCondition"
+            resultMap="SystemLogMap">
+        SELECT
+            r.id,
+            r.operation_type,
+            r.operation_name,
+            r.user_id,
+            r.content,
+            r.add_time
+        FROM base_system_log r
+        order by r.add_time desc
+    </select>
+
+</mapper>

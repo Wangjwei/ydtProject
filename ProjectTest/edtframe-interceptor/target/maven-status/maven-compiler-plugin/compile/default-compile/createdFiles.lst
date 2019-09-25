@@ -1,0 +1,5 @@
+cc\edt\frame\interceptor\PackagesSqlSessionFactoryBean.class
+cc\edt\frame\filter\ParamsFilter.class
+cc\edt\frame\filter\ParameterRequestWrapper.class
+cc\edt\frame\interceptor\DefaultInterceptor.class
+cc\edt\frame\interceptor\FormTokenInterceptor.class

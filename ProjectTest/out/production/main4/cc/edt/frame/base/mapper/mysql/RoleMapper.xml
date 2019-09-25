@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.edt.frame.base.dao.RoleDao">
+    <resultMap type="cc.edt.frame.model.entity.base.Role" id="RoleMap">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="reMark" column="remark"/>
+        <result property="addTime" column="add_time"/>
+        <result property="addUser" column="add_user"/>
+        <result property="addUserDisplay" column="addUserDisplay"/>
+    </resultMap>
+    <resultMap type="cc.edt.frame.model.entity.base.Role" id="roleMenuRightsMap" extends="RoleMap">
+        <collection property="listMenu" ofType="cc.edt.frame.model.entity.base.Menu">
+            <id property="id" column="menu_id"/>
+            <result property="name" column="menu_name"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="openUrl" column="open_url"/>
+        </collection>
+        <collection property="listRights" ofType="cc.edt.frame.model.entity.base.Rights">
+            <id property="id" column="rights_id"/>
+            <result property="name" column="rights_name"/>
+            <result property="parentId" column="parent_id"/>
+        </collection>
+    </resultMap>
+    <select id="listRoleByCondition" parameterType="RoleCondition"
+            resultMap="RoleMap">
+        select
+        r.id,
+        r.name,
+        r.remark,
+        r.add_time,
+        r.add_user,
+        u.name as adduserdisplay
+        from
+        base_role_info r
+        left join base_user_info u on r.add_user = u.id
+        where
+        1 = 1 and u.mechanisms_id in (select buml.mechanisms_id
+        from base_user_mechanisms_link buml
+        where
+        user_id = #{userId})
+        <if test="roleName != null">
+            and r.name like concat('%',#{roleName},'%')
+        </if>
+        order by r.add_time desc
+    </select>
+    <select id="getRoleById" resultMap="RoleMap">
+        select
+            r.id,
+            r.name,
+            r.remark
+        from base_role_info r
+        where r.id = #{id}
+    </select>
+    <select id="getRoleByIdForRights" resultMap="roleMenuRightsMap">
+        select
+            r.id,
+            r.name,
+            r.remark,
+            rights.id        as rights_id,
+            rights.name      as rights_name,
+            rights.parent_id as rights_parent_id
+        from
+            base_role_info r
+            left join base_role_rights rr on r.id = rr.role_id
+            left join base_rights_info rights on rr.rights_id = rights.id
+        where
+            r.id = #{id}
+        order by rights.id
+    </select>
+    <select id="getRoleByIdForMenu" resultMap="roleMenuRightsMap">
+        select
+            r.id,
+            r.name,
+            r.remark,
+            menu.id   as menu_id,
+            menu.parent_id,
+            menu.name as menu_name,
+            menu.open_url
+        from base_role_info
+             r
+            left join base_role_menu rm on r.id = rm.role_id
+            left join
+            base_menu_info menu on rm.menu_id = menu.id
+        where r.id = #{id}
+        order by
+            menu.id
+    </select>
+</mapper>

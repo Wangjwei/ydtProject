@@ -1,0 +1,8 @@
+cc\edt\frame\common\controller\CommonController.class
+cc\edt\frame\common\controller\UploadController.class
+cc\edt\frame\common\constant\CommonConstant.class
+cc\edt\frame\common\constant\StaticDictionary.class
+cc\edt\frame\common\controller\BaseController.class
+cc\edt\frame\common\constant\DictionaryConstant.class
+cc\edt\frame\common\annotation\Log.class
+cc\edt\frame\common\annotation\FormToken.class

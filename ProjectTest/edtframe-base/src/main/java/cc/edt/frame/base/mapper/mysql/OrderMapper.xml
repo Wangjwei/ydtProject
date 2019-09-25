@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.edt.frame.base.dao.OrderDao">
+    <resultMap type="cc.edt.frame.model.entity.base.Order" id="orderMap">
+        <id property="orderId" column="order_id"/>
+        <result property="orderName" column="order_name"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="orderMoney" column="order_money"/>
+        <result property="orderDescription" column="order_description"/>
+
+    </resultMap>
+    <select id="getOrderById" resultMap="orderMap">
+        SELECT
+	order_id,
+	order_name,
+	order_time,
+	order_money,
+	order_description
+FROM
+	base_order_info
+WHERE
+	order_id = #{orderId}
+    </select>
+
+    <select id="saveOrder" parameterType="cc.edt.frame.model.entity.base.Order">
+        INSERT INTO base_order_info (
+	order_id,
+	order_name,
+	order_time,
+	order_money,
+	order_description
+)
+VALUES
+	(
+		# { orderId }, # { orderName }, # { orderTime }, # { orderMoney }, 3 { orderDescription }
+	);
+    </select>
+    <select id="updateOrder" parameterType="cc.edt.frame.model.entity.base.Order">
+        UPDATE base_order_info
+SET order_id = #{orderId},
+order_name = #{orderName},
+order_time = #{orderTime},
+order_money = #{orderMoney},
+order_description = #{orderDescription}
+WHERE
+	order_id = #{orderId}
+    </select>
+
+    <select id="deleteOrder" parameterType="int">
+DELETE
+FROM
+	base_order_info
+WHERE
+	order_id = #{orderId}
+    </select>
+
+    <select id="getAllOrder" resultMap="orderMap">
+        SELECT * FROM base_order_info
+    </select>
+</mapper>
