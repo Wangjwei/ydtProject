@@ -26,7 +26,7 @@
         <spring.version>4.3.13.RELEASE</spring.version>
         <zxing.version>3.3.1</zxing.version>
         <poi.version>3.16</poi.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.7.1</shiro.version>
         <jackson.version>2.9.3</jackson.version>
     </properties>
     <dependencies>
